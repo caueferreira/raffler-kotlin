@@ -17,18 +17,22 @@
 }
 
 # Kotlin
--keep class kotlin.Metadata { *; }
+-keep class kotlin.** { *; }
 -dontnote kotlin.coroutines.jvm.internal.DebugMetadataKt**
 -dontnote kotlin.internal.PlatformImplementationsKt
 -dontnote kotlin.jvm.internal.Reflection
 
-# Keep everything that is not my own package for simplicity
--keep class !com.fibelatti.raffler.** { *; }
+# Keep custom views
+-keep class com.fibelatti.raffler.core.platform.customview.** { *; }
 
 # Keep model classes (since they are all annotaded with @Entity we can use it to make it simpler)
 -keep @androidx.room.Entity class * { *; }
 
-# SupportLibrary
+# Keep custom errors
+-keep class * extends java.lang.Exception
+-keep class * extends java.lang.Throwable
+
+# Support Library
 -keep class * extends androidx.fragment.app.Fragment
 -keep class * extends androidx.appcompat.app.AppCompatActivity
 -keep class * extends android.app.Application
@@ -47,6 +51,8 @@
 -keepclassmembers class **.R$* {
     public static <fields>;
 }
+
+-keep class com.google.android.material.** { *; }
 
 # Gson
 -dontnote sun.misc.Unsafe
