@@ -1,0 +1,50 @@
+task gitRelease() {
+    doLast {
+        println "Fetching from remote..."
+        grgit.fetch {
+            remote = 'origin'
+            prune = true
+        }
+
+        println "Updating develop..."
+        grgit.checkout {
+            branch = 'develop'
+        }
+        grgit.merge {
+            head = 'develop'
+        }
+
+        println "Updating master..."
+
+        try {
+            grgit.checkout {
+                branch = 'master'
+                createBranch = true
+            }
+        } catch(Exception ignored) {
+            grgit.checkout {
+                branch = 'master'
+            }
+        }
+
+        grgit.merge {
+            head = 'master'
+        }
+
+        println "Merging develop into master..."
+//        grgit.merge {
+//            head = 'develop'
+//            mode = 'create-commit'
+//        }
+
+//        def tag = "${AppInfo.versionMajor}.${AppInfo.versionMinor}.${AppInfo.versionPatch}"
+//        println "Creating tag $tag..."
+//        grgit.tag.add {
+//            name = tag
+//        }
+//
+//        grgit.push {
+//            tags = true
+//        }
+    }
+}
